@@ -26,16 +26,17 @@ The knowledge base includes documents from:
 
 ## 🏗️ Architecture
 
+```
 PHARMA_PROJECT/               #HuggingFace
 │
 ├── data/
 │   ├── raw/                  # original documents (HuggingFace)
 │   ├── chunks/               # chunks.json (HuggingFace)
 │   ├── vector_store/         # index.faiss (HuggingFace)
-
+```
 =========================================================
-
-PHARMA_PROJECT/              #Github
+```
+PHARMA_PROJECT/
 │
 ├── data/
 │   └── registry.json         # Tracks processed documents (incremental builds)
@@ -59,6 +60,8 @@ PHARMA_PROJECT/              #Github
 │       └── llm.py            # Groq LLM interface
 │
 └── streamlit_app.py          # Web interface
+```
+
 
 ## ⚙️ How it works
 
