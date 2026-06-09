@@ -38,6 +38,39 @@ st.set_page_config(
 )
 
 # =========================
+# DOWNLOAD DATA FROM HUGGING FACE
+# =========================
+
+def download_data_from_hf():
+    from huggingface_hub import hf_hub_download
+    import os
+
+    HF_REPO = "PipetteAndPython/pharma-compliance-docs"
+
+    # Create directories if they don't exist
+    INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CHUNKS_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # Download FAISS index
+    if not INDEX_PATH.exists():
+        hf_hub_download(
+            repo_id=HF_REPO,
+            repo_type="dataset",
+            filename="vector_store/index.faiss",
+            local_dir=PROJECT_ROOT / "data"
+        )
+
+    # Download chunks
+    if not CHUNKS_PATH.exists():
+        hf_hub_download(
+            repo_id=HF_REPO,
+            repo_type="dataset",
+            filename="chunks/chunks.json",
+            local_dir=PROJECT_ROOT / "data"
+        )
+
+
+# =========================
 # LOAD RAG SYSTEM (CACHED)
 # =========================
 # @st.cache_resource ensures FAISS and chunks are loaded only once
@@ -45,6 +78,7 @@ st.set_page_config(
 
 @st.cache_resource
 def load_rag_system():
+    download_data_from_hf()
     index = load_index(INDEX_PATH)
     if index is None:
         raise ValueError("❌ FAISS index could not be loaded.")
